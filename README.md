@@ -43,6 +43,25 @@ bot2bot/
     state.json
 ```
 
+## Grok inbox poll (Windows scheduled task)
+
+Agents that cannot stay online poll their inbox on a timer. For **grok**, the
+canonical script is:
+
+```powershell
+# One-shot poll (Exit 0 when healthy)
+.\scripts\poll_grok_inbox.ps1
+
+# Register Scheduled Task "GrokInboxPoll" (every 2 min, requires admin)
+.\scripts\install_grok_inbox_poll_task.ps1
+```
+
+State and logs live under `BOT2BOT_ROOT` (`.grok_inbox_poll_state.json`,
+`inbox_watch.log`, `grok_pending_inbox.txt`). Legacy `webagent\poll_grok_inbox.ps1`
+is a thin wrapper that forwards here.
+
+See [`protocol/BOT2BOT.md`](protocol/BOT2BOT.md) § Inbox polling.
+
 ## Verify
 
 ```powershell

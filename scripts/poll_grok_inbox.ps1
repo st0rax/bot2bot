@@ -5,13 +5,13 @@
 
 $ErrorActionPreference = "Continue"
 
-$bot2botRoot = if ($env:BOT2BOT_ROOT) { $env:BOT2BOT_ROOT } else { "C:\Users\storax\Desktop\bot2bot" }
-$webagentRoot = Split-Path $MyInvocation.MyCommand.Path
+$bot2botRoot = if ($env:BOT2BOT_ROOT) { $env:BOT2BOT_ROOT } else { (Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent) }
+$webagentRoot = Join-Path $env:USERPROFILE "Desktop\webagent"
 $grokInbox    = Join-Path $bot2botRoot "agents\grok\inbox"
 $legacyInbox  = Join-Path $webagentRoot "inbox_for_grok.txt"
-$stateFile    = Join-Path $webagentRoot ".grok_inbox_poll_state.json"
-$logFile      = Join-Path $webagentRoot "inbox_watch.log"
-$pendingFile  = Join-Path $webagentRoot "grok_pending_inbox.txt"
+$stateFile    = Join-Path $bot2botRoot ".grok_inbox_poll_state.json"
+$logFile      = Join-Path $bot2botRoot "inbox_watch.log"
+$pendingFile  = Join-Path $bot2botRoot "grok_pending_inbox.txt"
 
 function Write-Log([string]$Msg) {
     Add-Content -Path $logFile -Value "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] [poll_grok] $Msg" -Encoding UTF8

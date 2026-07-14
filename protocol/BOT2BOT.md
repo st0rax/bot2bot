@@ -159,6 +159,19 @@ A conforming implementation must:
 4. Support idempotent registration
 5. Not require webagent, PowerShell, Windows, or any specific AI product
 
+## Inbox polling (host delivery, not normative core)
+
+Some agents (e.g. **grok**) cannot watch the filesystem continuously. A host may
+run a scheduled poll that:
+
+1. Scans `agents/<slug>/inbox/*.msg.txt` for new files (hash/mtime state).
+2. Optionally checks a legacy inbox file in a host project.
+3. Logs and notifies the agent owner (toast, TTS, etc.) — host-specific.
+
+Reference implementation (Windows): `scripts/poll_grok_inbox.ps1` +
+`scripts/install_grok_inbox_poll_task.ps1`. State files belong under
+`BOT2BOT_ROOT`, not inside webagent.
+
 ## Version
 
 Protocol version: **1**  

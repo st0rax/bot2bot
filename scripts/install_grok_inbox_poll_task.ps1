@@ -2,7 +2,7 @@
 #Requires -RunAsAdministrator
 $ErrorActionPreference = "Stop"
 
-$script = "C:\Users\storax\Desktop\webagent\poll_grok_inbox.ps1"
+$script = Join-Path $PSScriptRoot "poll_grok_inbox.ps1"
 $taskName = "GrokInboxPoll"
 
 if (-not (Test-Path $script)) { throw "Missing: $script" }
