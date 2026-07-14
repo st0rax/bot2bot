@@ -1,6 +1,6 @@
 ﻿# poll_grok_inbox.ps1
 # One-shot inbox poll for agent grok (scheduled task every 2 min).
-# Checks bot2bot agents/grok/inbox/*.msg.txt and legacy inbox_for_grok.txt.
+# Checks bot2bot agents/grok/inbox/*.msg.txt only.
 # On new mail: log + Windows toast. Does not mark messages processed (Grok session does that).
 
 $ErrorActionPreference = "Continue"
@@ -8,7 +8,6 @@ $ErrorActionPreference = "Continue"
 $bot2botRoot = if ($env:BOT2BOT_ROOT) { $env:BOT2BOT_ROOT } else { (Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent) }
 $webagentRoot = Join-Path $env:USERPROFILE "Desktop\webagent"
 $grokInbox    = Join-Path $bot2botRoot "agents\grok\inbox"
-$legacyInbox  = Join-Path $webagentRoot "inbox_for_grok.txt"
 $stateFile    = Join-Path $bot2botRoot ".grok_inbox_poll_state.json"
 $logFile      = Join-Path $bot2botRoot "inbox_watch.log"
 $pendingFile  = Join-Path $bot2botRoot "grok_pending_inbox.txt"
@@ -50,7 +49,6 @@ if (-not (Test-Path $grokInbox)) {
 
 $state = @{
     bot2bot = @{}
-    legacy_hash = $null
     last_poll = $null
 }
 if (Test-Path $stateFile) {
@@ -59,7 +57,6 @@ if (Test-Path $stateFile) {
         if ($loaded.bot2bot) {
             $loaded.bot2bot.PSObject.Properties | ForEach-Object { $state.bot2bot[$_.Name] = $_.Value }
         }
-        $state.legacy_hash = $loaded.legacy_hash
     } catch { }
 }
 
@@ -72,14 +69,8 @@ foreach ($fp in Get-InboxFingerprints $grokInbox) {
     }
 }
 
-$legacyFp = Get-FileFingerprint $legacyInbox
-if ($legacyFp -and $legacyFp.hash -ne $state.legacy_hash) {
-    $state.legacy_hash = $legacyFp.hash
-    $newItems += $legacyFp
-}
-
 $state.last_poll = (Get-Date).ToString("o")
-@{ bot2bot = $state.bot2bot; legacy_hash = $state.legacy_hash; last_poll = $state.last_poll } |
+@{ bot2bot = $state.bot2bot; last_poll = $state.last_poll } |
     ConvertTo-Json -Depth 5 | Set-Content $stateFile -Encoding UTF8
 
 if ($newItems.Count -eq 0) { exit 0 }

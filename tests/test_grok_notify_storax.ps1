@@ -1,7 +1,7 @@
 ﻿# test_grok_notify_storax.ps1 — structural tests for notify-storax workflow parser
 $ErrorActionPreference = "Stop"
 $root = Split-Path (Split-Path $MyInvocation.MyCommand.Path)
-$script = Join-Path $root "grok_notify_storax.ps1"
+$script = Join-Path $env:USERPROFILE "Desktop\webagent\delivery\grok_notify_storax.ps1"
 if (-not (Test-Path $script)) { throw "missing $script" }
 
 $parseBlock = {

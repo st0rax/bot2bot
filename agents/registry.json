@@ -55,6 +55,14 @@
     "poke_template": "check {inbox_path} and continue",
     "active": false
   },
+  "grok": {
+    "display_name": "Grok",
+    "kind": "desktop",
+    "active": true,
+    "process_name": "Cursor",
+    "window_title_pattern": "Grok",
+    "poke_template": "check {inbox_path} and continue"
+  },
   "wa-ops": {
     "display_name": "wa-ops (Operations)",
     "kind": "webbrain",

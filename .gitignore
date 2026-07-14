@@ -17,6 +17,11 @@ data/ankh/
 data/deputy_reviews/
 git-publish/
 
+# poll/runtime artifacts
+.grok_inbox_poll_state.json
+inbox_watch.log
+grok_pending_inbox.txt
+
 # OS
 .DS_Store
 Thumbs.db
