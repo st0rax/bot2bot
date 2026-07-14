@@ -48,12 +48,17 @@ bot2bot/
 Bot2Bot core does **not** include watchers or scheduled tasks. Agents that cannot
 stay online must poll their inbox from a **host project** (cron, Task Scheduler, etc.).
 
-For **grok on Windows**, the canonical delivery scripts live in **webagent**:
+For **grok on Windows**, the Scheduled Task contract path is **bot2bot**; implementation is in **webagent/delivery/**:
 
 ```powershell
-cd C:\Users\storax\Desktop\webagent
-.\poll_grok_inbox.ps1
-.\install_grok_inbox_poll_task.ps1   # admin: Scheduled Task "GrokInboxPoll" every 2 min
+# Poll shim (delegates to webagent/delivery/poll_grok_inbox.ps1)
+.\scripts\poll_grok_inbox.ps1
+
+# Register GrokInboxPoll (admin) — single installer authority
+.\scripts\install_grok_inbox_poll_task.ps1
+
+# Verify shim + poll exit 0 + task path
+.\scripts\verify_poll_contract.ps1
 ```
 
 See [`DELIVERY.md`](DELIVERY.md) and [`protocol/BOT2BOT.md`](protocol/BOT2BOT.md) § Inbox polling.
