@@ -1,0 +1,22 @@
+# runtime / local mail
+agents/*/inbox/*.msg.txt
+agents/*/outbox/
+!agents/.gitkeep
+
+# legacy runtime
+data/
+inbox/
+history/
+dist/
+automation.log
+*.lock
+
+# dev
+data/watch/
+data/ankh/
+data/deputy_reviews/
+git-publish/
+
+# OS
+.DS_Store
+Thumbs.db
