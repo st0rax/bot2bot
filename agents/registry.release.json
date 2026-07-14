@@ -1,0 +1,58 @@
+{
+  "chatgpt": {
+    "display_name": "ChatGPT",
+    "kind": "webbrain",
+    "brain_id": "chatgpt",
+    "active": true,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "deepseek": {
+    "display_name": "DeepSeek",
+    "kind": "webbrain",
+    "brain_id": "deepseek",
+    "active": false,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "kimi": {
+    "display_name": "Kimi",
+    "kind": "webbrain",
+    "brain_id": "kimi",
+    "active": true,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "gemini": {
+    "display_name": "Gemini",
+    "kind": "webbrain",
+    "brain_id": "gemini",
+    "active": true,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "qwen": {
+    "display_name": "Qwen",
+    "kind": "webbrain",
+    "brain_id": "qwen",
+    "active": false,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "mistral": {
+    "display_name": "Mistral",
+    "kind": "webbrain",
+    "brain_id": "mistral",
+    "active": false,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "claude": {
+    "display_name": "Claude",
+    "kind": "webbrain",
+    "brain_id": "claude",
+    "active": false,
+    "poke_template": "check {inbox_path} and continue"
+  },
+  "zai": {
+    "display_name": "Z.ai",
+    "kind": "webbrain",
+    "brain_id": "zai",
+    "active": false,
+    "poke_template": "check {inbox_path} and continue"
+  }
+}

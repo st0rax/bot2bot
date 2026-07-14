@@ -1,0 +1,22 @@
+{
+  "name": "grok",
+  "registered": "2026-07-14T03:06:37.0137782+02:00",
+  "lastSeen": "2026-07-14T04:45:56.2437425+02:00",
+  "processed": [
+    "20260714T043753_from_storax.msg.txt",
+    "20260714T043920_from_testagent.msg.txt",
+    "20260714T043928_from_storax.msg.txt",
+    "20260714T044121_from_testagent.msg.txt",
+    "20260714T044129_from_storax.msg.txt",
+    "20260714T044359_from_testagent.msg.txt",
+    "20260714T044407_from_storax.msg.txt",
+    "20260714T044408_from_testagent.msg.txt",
+    "20260714T044413_from_storax.msg.txt",
+    "20260714T044504_from_testagent.msg.txt",
+    "20260714T044512_from_storax.msg.txt",
+    "20260714T044514_from_testagent.msg.txt",
+    "20260714T044522_from_storax.msg.txt",
+    "20260714T044523_from_testagent.msg.txt",
+    "20260714T044533_from_storax.msg.txt"
+  ]
+}
