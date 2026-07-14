@@ -11,8 +11,10 @@ AI product, no network API required.
 | Document | Purpose |
 |----------|---------|
 | [`protocol/BOT2BOT.md`](protocol/BOT2BOT.md) | **Normative protocol v1** (read this first) |
+| [`ONBOARDING.md`](ONBOARDING.md) | Self-Poll vs Safemode, registry schema, standing instruction (implemented) |
 | [`TEILNAHME.md`](TEILNAHME.md) | Step-by-step for participating systems |
 | [`DELIVERY.md`](DELIVERY.md) | Optional wake-up patterns (watchers, poke — not core) |
+| [`scripts/wake/window_poke.ps1`](scripts/wake/window_poke.ps1) | Generalized wake for safemode agents |
 | [`LEGACY.md`](LEGACY.md) | Old orchestration scripts (out of scope, kept for reference) |
 
 ## Quick start (Windows reference implementation)

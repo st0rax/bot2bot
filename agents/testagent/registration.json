@@ -1,0 +1,8 @@
+{
+  "slug": "testagent",
+  "display_name": "Test Agent",
+  "registered_at": "2026-07-15T00:00:00Z",
+  "poll_mode": "safemode",
+  "background_poll": false,
+  "wake_command": "pwsh -NoProfile -File scripts/wake/window_poke.ps1 --agent testagent"
+}

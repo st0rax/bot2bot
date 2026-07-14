@@ -4,7 +4,9 @@
     "kind": "webbrain",
     "brain_id": "chatgpt",
     "active": true,
-    "poke_template": "check {inbox_path} and continue"
+    "poll_mode": "safemode",
+    "background_poll": false,
+    "wake_command": "pwsh -NoProfile -File scripts/wake/window_poke.ps1 --agent chatgpt"
   },
   "deepseek": {
     "display_name": "DeepSeek",
@@ -61,7 +63,9 @@
     "active": true,
     "process_name": "Cursor",
     "window_title_pattern": "Grok",
-    "poke_template": "check {inbox_path} and continue"
+    "poll_mode": "self",
+    "background_poll": true,
+    "wake_command": null
   },
   "wa-ops": {
     "display_name": "wa-ops (Operations)",
