@@ -7,6 +7,8 @@ They are **not** part of Bot2Bot protocol v1.
 
 | Area | Paths | Status |
 |------|-------|--------|
+| Grok inbox poll / notify storax | `scripts/poll_grok_inbox.ps1`, `scripts/grok_notify_storax.ps1`, `scripts/install_grok_inbox_poll_task.ps1`, `scripts/watch_inbox.ps1` | **Moved** → `webagent/poll_grok_inbox.ps1`, `webagent/grok_notify_storax.ps1` |
+| Legacy webagent inbox hash | `scripts/check_inbox.ps1` | **Obsolete** — use bot2bot `agents/<slug>/inbox/` |
 | Poke / window focus | `scripts/poke_agent.ps1`, `scripts/poke_grok.ps1` | **Deferred** — delivery, Windows-only |
 | Webbrain bridge | `scripts/bot2bot_webbrain_bridge.ps1` | Move to webagent |
 | Installer / release | `scripts/package_release.ps1`, `install.ps1`, `dist/` | Move to webagent-suite |

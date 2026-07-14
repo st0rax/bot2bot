@@ -3,6 +3,12 @@ agents/*/inbox/*.msg.txt
 agents/*/outbox/
 !agents/.gitkeep
 
+# host delivery runtime (webagent owns poll/notify)
+.grok_inbox_poll_state.json
+grok_pending_inbox.txt
+inbox_watch.log
+notify_storax_workflow.log
+
 # legacy runtime
 data/
 inbox/
