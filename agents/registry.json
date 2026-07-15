@@ -20,14 +20,20 @@
     "kind": "webbrain",
     "brain_id": "kimi",
     "active": true,
-    "poke_template": "check {inbox_path} and continue"
+    "poke_template": "check {inbox_path} and continue",
+    "poll_mode": "self",
+    "background_poll": true,
+    "wake_command": null
   },
   "gemini": {
     "display_name": "Gemini",
     "kind": "webbrain",
     "brain_id": "gemini",
     "active": true,
-    "poke_template": "check {inbox_path} and continue"
+    "poke_template": "check {inbox_path} and continue",
+    "poll_mode": "self",
+    "background_poll": true,
+    "wake_command": null
   },
   "qwen": {
     "display_name": "Qwen",
@@ -72,6 +78,17 @@
     "kind": "webbrain",
     "brain_id": "kimi",
     "active": true,
-    "poke_template": "check {inbox_path} and continue"
+    "poke_template": "check {inbox_path} and continue",
+    "poll_mode": "self",
+    "background_poll": true,
+    "wake_command": null
+  },
+  "testagent": {
+    "display_name": "Test Agent",
+    "kind": "desktop",
+    "active": true,
+    "poll_mode": "safemode",
+    "background_poll": false,
+    "wake_command": "pwsh -NoProfile -File scripts/wake/window_poke.ps1 --agent testagent"
   }
 }

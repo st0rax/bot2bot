@@ -220,3 +220,48 @@ History: history/conversation.jsonl (append-only, never delete)
 $($Message.body)$refs
 "@
 }
+
+# --- Pure functions per strategist recommendation (Resolve-WatcherActions + Split-WakeCommand) ---
+# These are extracted so watcher decisions and token split can be unit-tested without I/O/side effects.
+
+function Resolve-WatcherActions {
+    param(
+        [pscustomobject]$Registry,
+        [hashtable]$AgentStates  # key=slug, value=@{active=bool; poll_mode=string; wake_command=string; inbox_exists=bool; msg_count=int}
+    )
+    $actions = @()
+    foreach ($slug in $Registry.PSObject.Properties.Name) {
+        $cfg = Get-AgentConfig -AgentName $slug  # reuses existing which now has PollMode etc
+        $st = $AgentStates[$slug]
+        if (-not $st) { $st = @{ active=$cfg.Active; poll_mode=$cfg.PollMode; wake_command=$cfg.WakeCommand; inbox_exists=$false; msg_count=0 } }
+        if (-not $st.active) { continue }
+        if ($st.poll_mode -ne 'safemode') {
+            $actions += [pscustomobject]@{ action='SelfPollSkip'; slug=$slug; reason='self' }
+            continue
+        }
+        if (-not $st.inbox_exists) {
+            $actions += [pscustomobject]@{ action='SafemodeNoInbox'; slug=$slug }
+            continue
+        }
+        if ($st.msg_count -le 0) {
+            $actions += [pscustomobject]@{ action='SafemodeNoMsgs'; slug=$slug }
+            continue
+        }
+        if ([string]::IsNullOrWhiteSpace($st.wake_command)) {
+            $actions += [pscustomobject]@{ action='SafemodeNoWakeCommand'; slug=$slug }
+            continue
+        }
+        $actions += [pscustomobject]@{ action='SafemodeWake'; slug=$slug; wake=$st.wake_command; count=$st.msg_count }
+    }
+    return $actions
+}
+
+function Split-WakeCommand {
+    param([string]$WakeCommand)
+    if ([string]::IsNullOrWhiteSpace($WakeCommand)) { return $null, @() }
+    $tokens = $WakeCommand -split '\s+'
+    if ($tokens.Count -eq 0) { return $null, @() }
+    $exe = $tokens[0]
+    $args = if ($tokens.Count -gt 1) { $tokens[1..($tokens.Count-1)] } else { @() }
+    return $exe, $args
+}

@@ -13,32 +13,43 @@ param(
 $registry = Get-AgentRegistry -Root $Root
 $agentsDir = Join-Path $Root "agents"
 
+# Build per-slug state for pure resolver (no silent continues)
+$states = @{}
 foreach ($slug in $registry.PSObject.Properties.Name) {
     $cfg = Get-AgentConfig -AgentName $slug -Root $Root
-    if (-not $cfg.Active) { continue }
-    if ($cfg.PollMode -ne "safemode") {
-        Write-Host "[watcher] $slug : self-poll (skipped)"
-        continue
+    $inboxPath = Join-Path $agentsDir "$slug\inbox"
+    $exists = Test-Path $inboxPath
+    $cnt = 0
+    if ($exists) {
+        $cnt = (Get-ChildItem $inboxPath -Filter *.msg* -ErrorAction SilentlyContinue | Measure-Object).Count
     }
-    $wake = $cfg.WakeCommand
-    if (-not $wake) {
-        Write-Host "[watcher] $slug : safemode but no wake_command"
-        continue
+    $states[$slug] = @{
+        active = $cfg.Active
+        poll_mode = $cfg.PollMode
+        wake_command = $cfg.WakeCommand
+        inbox_exists = $exists
+        msg_count = $cnt
     }
-    $inbox = Join-Path $agentsDir "$slug\inbox"
-    if (-not (Test-Path $inbox)) { continue }
-    $newMsgs = Get-ChildItem $inbox -Filter *.msg* -ErrorAction SilentlyContinue
-    if ($newMsgs.Count -eq 0) { continue }
+}
 
-    Write-Host "[watcher] $slug safemode: $($newMsgs.Count) new; wake=$wake"
-    if (-not $DryRun) {
-        # invoke the declared wake_command directly (split to avoid nested pwsh -Command fragility)
-        $tokens = $wake -split '\s+'
-        if ($tokens.Count -gt 0) {
-            $exe = $tokens[0]
-            $args = if ($tokens.Count -gt 1) { $tokens[1..($tokens.Count-1)] } else { @() }
-            & $exe $args 2>&1 | Out-Null
+$actions = Resolve-WatcherActions -Registry $registry -AgentStates $states
+
+foreach ($a in $actions) {
+    switch ($a.action) {
+        'SelfPollSkip' { Write-Host "[watcher] $($a.slug) : self-poll (skipped)" }
+        'SafemodeNoInbox' { Write-Host "[watcher] $($a.slug) : safemode but no inbox dir" }
+        'SafemodeNoMsgs' { Write-Host "[watcher] $($a.slug) : safemode no new msgs" }
+        'SafemodeNoWakeCommand' { Write-Host "[watcher] $($a.slug) : safemode but no wake_command" }
+        'SafemodeWake' {
+            Write-Host "[watcher] $($a.slug) safemode: $($a.count) new; wake=$($a.wake)"
+            if (-not $DryRun) {
+                $exe, $args = Split-WakeCommand -WakeCommand $a.wake
+                if ($exe) {
+                    & $exe $args 2>&1 | Out-Null
+                }
+            }
         }
+        default { Write-Host "[watcher] $($a.slug) : $($a.action)" }
     }
 }
 
