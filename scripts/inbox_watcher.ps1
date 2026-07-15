@@ -32,8 +32,13 @@ foreach ($slug in $registry.PSObject.Properties.Name) {
 
     Write-Host "[watcher] $slug safemode: $($newMsgs.Count) new; wake=$wake"
     if (-not $DryRun) {
-        # invoke the declared wake (e.g. window_poke)
-        & pwsh -NoProfile -Command $wake 2>&1 | Out-Null
+        # invoke the declared wake_command directly (split to avoid nested pwsh -Command fragility)
+        $tokens = $wake -split '\s+'
+        if ($tokens.Count -gt 0) {
+            $exe = $tokens[0]
+            $args = if ($tokens.Count -gt 1) { $tokens[1..($tokens.Count-1)] } else { @() }
+            & $exe $args 2>&1 | Out-Null
+        }
     }
 }
 
