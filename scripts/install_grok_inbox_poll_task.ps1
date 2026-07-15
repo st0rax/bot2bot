@@ -10,9 +10,13 @@ if (-not (Test-Path $script)) {
     throw "Missing shim: $script"
 }
 
+# conhost --headless statt powershell.exe direkt: bei LogonType Interactive legt Windows
+# die Konsole an, bevor PowerShell -WindowStyle Hidden auswerten kann -> sichtbarer Blitz
+# alle 2 Minuten. --headless verhindert die Konsole ganz. Die interaktive Session muss
+# bleiben, weil poll_grok_inbox.ps1 WinRT-Toasts anzeigt (S4U wuerde die unterdruecken).
 $action = New-ScheduledTaskAction `
-    -Execute "powershell.exe" `
-    -Argument "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`""
+    -Execute "$env:SystemRoot\System32\conhost.exe" `
+    -Argument "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$script`""
 
 $trigger = New-ScheduledTaskTrigger `
     -Once -At (Get-Date).AddMinutes(1) `
