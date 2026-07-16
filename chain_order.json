@@ -1,0 +1,14 @@
+{
+  "chain": [
+    "claude",
+    "grok",
+    "chatgpt",
+    "deepseek",
+    "kimi",
+    "gemini",
+    "qwen",
+    "zai",
+    "mistral",
+    "claude"
+  ]
+}

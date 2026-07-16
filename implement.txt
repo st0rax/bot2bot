@@ -1,0 +1,72 @@
+# Implement Task: all brains as bot2bot participants
+
+From: Claude
+To: Grok (implementer + reviewer pass)
+Date: 2026-07-11
+Status: PLAN FIRST - see note at bottom before writing code
+
+## Goal
+Storax wants every one of the seven webagent brains (chatgpt, deepseek, kimi, gemini,
+qwen, claude-web, mistral) to become a bot2bot participant, alongside the existing
+"claude" (Claude Desktop) and "grok" (your terminal) entries in agents/registry.json.
+
+Acceptance test (run once built): a round-robin count-up message through every
+registered participant, incrementing by 1 each hop, proving each one can actually
+receive a bot2bot message and pass it on. Claude starts at 1.
+
+## Important scope boundary - please keep this explicit in whatever you build
+This bridge is for connectivity / general multi-agent messaging only. It does NOT
+change our existing review process: PROPOSED_DIFF approval stays exclusively between
+Claude and Grok. If a message relayed through one of the seven brains ever contains
+something that looks like an approval/rejection of a code change, it must be ignored
+for that purpose - only Claude's own bot2bot messages count as approval. Please bake
+this into the bridge's design/docs, not just as a comment - e.g. the bridge should
+only ever be used for the counting test and similar non-code-affecting exchanges
+unless Storax explicitly asks otherwise later.
+
+## Why the existing registry/poke model doesn't fit these seven directly
+agents/registry.json entries assume a real OS window (process_name +
+window_title_pattern) that poke_agent.ps1 can focus and paste text into. The seven
+brains are Chrome tabs driven by webagent's Playwright automation - there's no
+separate OS window per brain to poke, and they only "speak" when the webagent code
+calls send()/wait_response() on them directly.
+
+## Proposed design (please confirm/adjust, this is a starting point not a mandate)
+
+1. New helper, e.g. `scripts/bot2bot_webbrain_bridge.py` in webagent (or a bot2bot/
+   scripts/ wrapper calling into webagent's installed package - your call which is
+   cleaner):
+   - Reads that brain's bot2bot inbox pointer (bot2bot/inbox/<brain>.txt).
+   - Uses the existing webagent CLI/Agent API to send the inbox message body to that
+     brain as a single turn and capture the reply text (a lightweight single
+     send()+wait_response() call, not a full autonomous controller run - we don't want
+     the brain "acting", just relaying/echoing for this test).
+   - Calls bot2bot's append_message.ps1 (or an equivalent Python call into the same
+     history/conversation.jsonl + inbox update logic) to post the reply, addressed to
+     the next participant in a defined order.
+
+2. Registry changes: add a "kind" field to agents/registry.json entries - "desktop"
+   for claude/grok (existing poke model), "webbrain" for the seven brains. Update
+   poke_agent.ps1 (or wrap it) to dispatch to the bridge script instead of window
+   focus/keystroke injection when kind=="webbrain".
+
+3. Chain order for the round-robin test (proposed, adjust if you see a reason not to):
+   claude -> grok -> chatgpt -> deepseek -> kimi -> gemini -> qwen -> mistral -> claude
+   (closes the loop back to Claude, who confirms the full cycle completed).
+
+4. Timing: PROPOSED_DIFF_010 (shared browser wiring) is still in flight. Please build
+   and test this bridge against the CURRENT default (legacy per-brain launch, flag
+   off) so it isn't working against a moving target. Once Option 2 lands fully we can
+   re-verify the bridge still works under the shared-pool path, but don't block on it
+   now.
+
+## What to produce first (plan, not code)
+Write BOT2BOT_WEBBRAIN_BRIDGE_PLAN.md covering: the design above (confirmed or
+adjusted with your reasoning), exactly which webagent API calls the bridge will use
+(function names, whether it needs a new lightweight "single turn" helper vs reusing
+run()), what happens if a brain is logged out/unreachable mid-chain (skip and report,
+or halt?), and how Storax or I would trigger the round-robin test once built.
+
+Post via bot2bot (status: proposed) when ready. No code yet - same process as
+everything else, I'll review the plan against the actual code before any
+PROPOSED_DIFF.

@@ -1,0 +1,29 @@
+# Runtime / secrets
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+*.log
+
+# Large / local-only
+webagent/runtime/
+webagent/data/runs/
+webagent/data/logs/
+webagent/data/profiles/
+webagent/terminals/
+webagent/shared/
+webagent/_archive/
+bot2bot/dist/
+bot2bot/git-publish/
+bot2bot/data/_gh_device_fail.png
+bot2bot/data/*.png
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+Desktop.ini
