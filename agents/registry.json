@@ -69,9 +69,9 @@
     "active": true,
     "process_name": "Cursor",
     "window_title_pattern": "Grok",
-    "poll_mode": "self",
-    "background_poll": true,
-    "wake_command": null
+    "poll_mode": "safemode",
+    "background_poll": false,
+    "wake_command": "pwsh -NoProfile -File C:\\Users\\storax\\Desktop\\webagent\\delivery\\grok_wake_on_mail.ps1"
   },
   "wa-ops": {
     "display_name": "wa-ops (Operations)",
@@ -90,5 +90,13 @@
     "poll_mode": "safemode",
     "background_poll": false,
     "wake_command": "pwsh -NoProfile -File scripts/wake/window_poke.ps1 --agent testagent"
+  },
+  "zcode": {
+    "display_name": "ZCode",
+    "kind": "desktop",
+    "active": true,
+    "poll_mode": "self",
+    "background_poll": true,
+    "wake_command": null
   }
 }
