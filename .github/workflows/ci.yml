@@ -1,0 +1,72 @@
+name: bot2bot CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Watcher Decisions
+        run: |
+          .\scripts\test_watcher_decisions.ps1
+
+      - name: Verify Poll Contract
+        run: |
+          .\scripts\verify_poll_contract.ps1
+
+      - name: Check Registry Schema
+        run: |
+          $registry = Get-Content 'agents/registry.json' | ConvertFrom-Json
+          if (-not $registry.claude) {
+            Write-Error "Registry missing claude entry"
+            exit 1
+          }
+          Write-Host "Registry schema OK: $($registry.PSObject.Properties.Count) agents"
+
+  lint:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: PowerShell Syntax Check
+        run: |
+          $scripts = Get-ChildItem scripts/*.ps1 -Exclude *_archive*
+          foreach ($s in $scripts) {
+            $errors = $null
+            $null = [System.Management.Automation.PSParser]::Tokenize((Get-Content $s.FullName -Raw), [ref]$errors)
+            if ($errors) {
+              Write-Error "Parse errors in $($s.Name): $($errors.Count)"
+            }
+          }
+          Write-Host "PowerShell syntax OK: $($scripts.Count) scripts"
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Required Files
+        run: |
+          for f in START_HERE.md README.md protocol/BOT2BOT.md agents/registry.json; do
+            if [ ! -f "$f" ]; then
+              echo "Missing: $f"
+              exit 1
+            fi
+          done
