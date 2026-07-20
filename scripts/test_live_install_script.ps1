@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$url = "https://github.com/alexanderkrenz89-ctrl/webagent/releases/download/v0.1.5/install-webagent.ps1"
+$url = "https://github.com/st0rax/webagent/releases/download/v0.1.5/install-webagent.ps1"
 $s = Invoke-RestMethod -Uri $url -TimeoutSec 120
 $errs = $null
 $null = [System.Management.Automation.Language.Parser]::ParseInput($s, [ref]$null, [ref]$errs)

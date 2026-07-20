@@ -260,12 +260,12 @@ $readme = @"
 
 ## Install (Online, neues System)
 ``````powershell
-irm https://github.com/alexanderkrenz89-ctrl/webagent/releases/download/v0.1.10/install-webagent.ps1 | iex
+irm https://github.com/st0rax/webagent/releases/download/v0.1.10/install-webagent.ps1 | iex
 ``````
 
 ## Update (bestehende Installation)
 ``````powershell
-irm https://github.com/alexanderkrenz89-ctrl/webagent/releases/download/v0.1.10/update-webagent.ps1 | iex
+irm https://github.com/st0rax/webagent/releases/download/v0.1.10/update-webagent.ps1 | iex
 ``````
 
 ## Install (ZIP / USB)

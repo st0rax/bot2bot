@@ -9,7 +9,7 @@
 param(
     [string]$Version = "0.1.9",
     [string[]]$NaggerAgents = @(),
-    [string]$Repo = "alexanderkrenz89-ctrl/webagent",
+    [string]$Repo = "st0rax/webagent",
     [int]$PollSeconds = 30,
     [int]$RepokeSeconds = 90,
     [int]$IdleSeconds = 300,

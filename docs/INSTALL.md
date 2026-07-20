@@ -3,14 +3,14 @@
 ## Online (recommended)
 
 ```powershell
-irm https://github.com/alexanderkrenz89-ctrl/webagent/releases/latest/download/install-webagent.ps1 | iex
+irm https://github.com/st0rax/webagent/releases/latest/download/install-webagent.ps1 | iex
 ```
 
 Installs to `%USERPROFILE%\Desktop\webagent` and `%USERPROFILE%\Desktop\bot2bot`.
 
 ## Offline
 
-1. Download `webagent-suite_vX.Y.Z.zip` from [Releases](https://github.com/alexanderkrenz89-ctrl/webagent/releases).
+1. Download `webagent-suite_vX.Y.Z.zip` from [Releases](https://github.com/st0rax/webagent/releases).
 2. Extract to Desktop.
 3. Run `INSTALL.ps1` inside the extracted folder.
 

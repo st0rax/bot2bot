@@ -32,7 +32,7 @@ if ($LocalScript) {
     }
     Write-Host "[iex-test] local script: $LocalScript" -ForegroundColor Cyan
 } else {
-    $url = "https://github.com/alexanderkrenz89-ctrl/webagent/releases/download/v$Version/install-webagent.ps1"
+    $url = "https://github.com/st0rax/webagent/releases/download/v$Version/install-webagent.ps1"
     $code = Invoke-RestMethod -Uri $url -TimeoutSec 120
     Write-Host "[iex-test] live script: $url" -ForegroundColor Cyan
 }

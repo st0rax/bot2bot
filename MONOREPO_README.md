@@ -16,7 +16,7 @@ install-webagent.cmd
 One-liner (Windows PowerShell 5.1 or pwsh 7):
 
 ```powershell
-irm https://github.com/alexanderkrenz89-ctrl/webagent/releases/latest/download/install-webagent.ps1 | iex
+irm https://github.com/st0rax/webagent/releases/latest/download/install-webagent.ps1 | iex
 ```
 
 Or download and run locally:
@@ -52,7 +52,7 @@ cd %USERPROFILE%\Desktop\bot2bot\scripts
 
 ## Releases
 
-Pre-built assets: [GitHub Releases](https://github.com/alexanderkrenz89-ctrl/webagent/releases)
+Pre-built assets: [GitHub Releases](https://github.com/st0rax/webagent/releases)
 
 | Asset | Purpose |
 |-------|---------|

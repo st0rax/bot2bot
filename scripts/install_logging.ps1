@@ -61,7 +61,7 @@ function Resolve-InstallLoggingScript {
     if (Test-Path -LiteralPath $cached) { return $cached }
 
     $urls = @(
-        "https://github.com/alexanderkrenz89-ctrl/webagent/releases/download/v$Version/install_logging.ps1"
+        "https://github.com/st0rax/webagent/releases/download/v$Version/install_logging.ps1"
     )
     foreach ($url in $urls) {
         try {
@@ -80,7 +80,7 @@ function Start-InstallLog {
         [string]$Version = "",
         [string]$InstallRoot = "",
         [string]$Bot2BotRoot = "",
-        [string]$Repo = "alexanderkrenz89-ctrl/webagent"
+        [string]$Repo = "st0rax/webagent"
     )
     $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
     $logDir = Get-InstallLogDir -InstallRoot $InstallRoot -Bot2BotRoot $Bot2BotRoot

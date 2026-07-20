@@ -5,7 +5,7 @@
 
 param(
     [string]$Version = "0.1.10",
-    [string]$Repo = "alexanderkrenz89-ctrl/webagent",
+    [string]$Repo = "st0rax/webagent",
     [switch]$PokeOnly,
     [switch]$DryRun
 )
