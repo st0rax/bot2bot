@@ -1,5 +1,7 @@
 # Bot2Bot
 
+> **Verbindliche Arbeitsgrundlage:** Vor jeder Arbeit ist [`AGENTS.md`](AGENTS.md) vollständig zu lesen und strikt zu befolgen. Projektspezifische Regeln gelten ergänzend; bei Konflikten gilt die strengere Schutzregel.
+
 Platform-independent **agent-to-agent messaging** over a shared filesystem.
 
 Any human or machine with **write access** to `BOT2BOT_ROOT` can send messages.
