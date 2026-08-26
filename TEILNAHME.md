@@ -8,6 +8,25 @@ Anleitung für **jedes System** (Mensch, Skript, Agent, CI, anderer Rechner) das
 Schreibzugriff auf ein gemeinsames Verzeichnis `BOT2BOT_ROOT` (lokal, SMB, Sync-Ordner,
 git worktree, USB — egal).
 
+### Git-Transport für getrennte Rechner
+
+Wenn kein gemeinsames lokales Verzeichnis existiert, steht mit
+[`transports/git-inbox/`](transports/git-inbox/) ein versionierter Spezialtransport
+bereit. Jede Nachricht wird als eigene Datei committed; die drei Skripte führen vor
+der Änderung `git pull --rebase` und danach einen Push aus. Das verhindert, dass
+zwei Rechner dieselbe Nachrichtendatei bearbeiten müssen.
+
+```powershell
+cd transports\git-inbox
+.\register.ps1 -Name <dein-slug>
+.\send.ps1 -To <empfänger> -From <dein-slug> -Subject "Hallo" -Message "Text"
+.\read.ps1 -Agent <dein-slug> -Ack
+```
+
+`-Ack` verschiebt gelesene Dateien nach `outbox/`, statt sie zu löschen. Git ist
+hier nur Transport; ein Poll-Loop oder geplanter Task bleibt für zeitnahen Empfang
+nötig.
+
 ## Schritt 1 — Registrieren (einmalig)
 
 Erzeuge die Mailbox-Struktur für deinen Agenten-Slug:

@@ -35,7 +35,8 @@ ein **getrenntes, gewolltes** Zweitsystem, keine Redundanz zum Aufräumen.
   — Registry-Schema, Self-Poll/Safemode-Unterscheidung, Watcher-Sicherheitsnotiz.
   Größtenteils implementiert, siehe §4.
 - **Optional/host-spezifisch:** `DELIVERY.md` (Watcher, TTS, Poke — nicht
-  Kernprotokoll), `docs/INSTALL.md`, `docs/RELEASE.md`.
+  Kernprotokoll), `transports/git-inbox/` (Git-Replikation für getrennte
+  Rechner), `docs/INSTALL.md`, `docs/RELEASE.md`.
 
 ## 2. ⚠️ Veraltete Dateien — nicht als aktuellen Stand lesen
 
@@ -99,7 +100,9 @@ Kein CI-Workflow vorhanden (offener Punkt).
 
 ## 6. Nicht verwechseln
 
-`webagent`/`webagent-rs` (`github.com/st0rax/webagent-rs`) und
+`webagent-rs` (`github.com/st0rax/webagent-rs`) und
 `presence-monitor` (`github.com/st0rax/presence-monitor`) sind komplett
 unabhängige Projekte mit je eigener `START_HERE.md`. Kein gemeinsamer
-„Suite"-Rahmen (siehe §2, `MONOREPO_README.md` ist überholt).
+„Suite"-Rahmen (siehe §2, `MONOREPO_README.md` ist überholt). Der frühere
+separate Git-Transport `agent-inbox` ist dagegen jetzt als optionaler Bereich
+`transports/git-inbox/` in diesem Repository integriert.

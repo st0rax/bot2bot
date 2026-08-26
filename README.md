@@ -16,6 +16,7 @@ AI product, no network API required.
 | [`ONBOARDING.md`](ONBOARDING.md) | Self-Poll vs Safemode, registry schema, standing instruction (implemented) |
 | [`TEILNAHME.md`](TEILNAHME.md) | Step-by-step for participating systems |
 | [`DELIVERY.md`](DELIVERY.md) | Optional wake-up patterns (watchers, poke — not core) |
+| [`transports/git-inbox/`](transports/git-inbox/) | Optionaler Git-Transport für Agenten auf verschiedenen Rechnern |
 | [`scripts/wake/window_poke.ps1`](scripts/wake/window_poke.ps1) | Generalized wake for safemode agents |
 | [`LEGACY.md`](LEGACY.md) | Old orchestration scripts (out of scope, kept for reference) |
 
@@ -52,7 +53,7 @@ bot2bot/
 Bot2Bot core does **not** include watchers or scheduled tasks. Agents that cannot
 stay online must poll their inbox from a **host project** (cron, Task Scheduler, etc.).
 
-For **grok on Windows**, the Scheduled Task contract path is **bot2bot**; implementation is in **webagent/delivery/**:
+For **grok on Windows**, the Scheduled Task contract path is **bot2bot**; implementation is in **webagent/delivery/**. Für Agenten auf unterschiedlichen Rechnern ist zusätzlich der versionierte [`transports/git-inbox/`](transports/git-inbox/)-Weg verfügbar:
 
 ```powershell
 # Poll shim (delegates to webagent/delivery/poll_grok_inbox.ps1)
