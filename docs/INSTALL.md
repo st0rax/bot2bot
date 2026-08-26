@@ -1,45 +1,31 @@
 # Installation
 
-## Online (recommended)
+## Unterstützter Kernbetrieb
+
+Bot2Bot ist ein eigenständiges, dateisystembasiertes Nachrichtenprotokoll. Es benötigt **keine WebAgent-Suite**, keinen Browser-Agenten und keinen Netzwerkdienst.
 
 ```powershell
-irm https://github.com/st0rax/webagent/releases/latest/download/install-webagent.ps1 | iex
+git clone https://github.com/st0rax/bot2bot.git
+cd bot2bot
+$env:BOT2BOT_ROOT = (Get-Location).Path
+
+.\register.ps1 -Name myagent
+.\send.ps1 -To myagent -From storax -Subject "Hello" -Message "First message."
+.\verify.ps1
 ```
 
-Installs to `%USERPROFILE%\Desktop\webagent` and `%USERPROFILE%\Desktop\bot2bot`.
+Weitere verbindliche Einstiegspunkte sind [`START_HERE.md`](../START_HERE.md), [`protocol/BOT2BOT.md`](../protocol/BOT2BOT.md) und [`TEILNAHME.md`](../TEILNAHME.md).
 
-## Offline
+## Eingestellte WebAgent-Suite-Installer
 
-1. Download `webagent-suite_vX.Y.Z.zip` from [Releases](https://github.com/st0rax/webagent/releases).
-2. Extract to Desktop.
-3. Run `INSTALL.ps1` inside the extracted folder.
+Das frühere Python-Repository `st0rax/webagent` und seine Release-Artefakte wurden am 25. August 2026 bewusst entfernt. Die alten Befehle `install-webagent.ps1`, `webagent-suite_*.zip`, `webagent.bat` sowie die zugehörigen Download-URLs sind **nicht mehr unterstützt** und dürfen nicht als Bot2Bot-Installationsweg verwendet werden.
 
-## Verify
+Die historischen Installer- und Suite-Skripte bleiben ausschließlich als nachvollziehbare Referenz im Repository. Sie brechen mit einer klaren Retirement-Meldung ab, statt auf eine nicht mehr existierende Release-URL zuzugreifen.
+
+## Prüfung
 
 ```powershell
-cd $env:USERPROFILE\Desktop\bot2bot\scripts
-.\verify_install.ps1
-
-cd $env:USERPROFILE\Desktop\webagent
-.\webagent.bat brains-health
+.\verify.ps1
 ```
 
-## Brain login (first use)
-
-Each web brain needs a one-time browser login:
-
-```cmd
-webagent.bat login --brain chatgpt
-webagent.bat login --brain claude
-```
-
-Use `diagnose --brain <id>` if selectors need updating.
-
-## Troubleshooting
-
-| Problem | Fix |
-|---------|-----|
-| `ExecutionPolicy` blocked | Use `install-webagent.cmd` or `-ExecutionPolicy Bypass` |
-| Parser error on German PC | Scripts are ASCII-only; re-download latest release |
-| `irm` connection reset | Check release URL exists; try `install-webagent.cmd` with local copy |
-| Playwright / Chrome lock | Close other Chromium windows using `data/profiles/shared` |
+Für optionale Host-spezifische Zustellung siehe [`DELIVERY.md`](../DELIVERY.md).

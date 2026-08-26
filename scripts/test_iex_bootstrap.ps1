@@ -11,6 +11,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+if (-not $LocalScript) { throw "RETIRED: Der Remote-Test fuer die entfernte Python-WebAgent-Suite ist nicht mehr verfuegbar. Fuer eine historische lokale Analyse muss -LocalScript explizit gesetzt werden." }
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 if ($LocalScript) {
@@ -32,9 +33,7 @@ if ($LocalScript) {
     }
     Write-Host "[iex-test] local script: $LocalScript" -ForegroundColor Cyan
 } else {
-    $url = "https://github.com/st0rax/webagent/releases/download/v$Version/install-webagent.ps1"
-    $code = Invoke-RestMethod -Uri $url -TimeoutSec 120
-    Write-Host "[iex-test] live script: $url" -ForegroundColor Cyan
+    throw "RETIRED: Ein Remote-Fallback fuer die entfernte Python-WebAgent-Suite ist nicht mehr vorhanden. Verwende ausschliesslich -LocalScript fuer eine historische Analyse."
 }
 
 if ($InstallRoot) { $env:WA_INSTALL_ROOT = $InstallRoot }

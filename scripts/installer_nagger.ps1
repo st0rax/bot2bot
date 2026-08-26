@@ -21,6 +21,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+throw "RETIRED: Dieses Skript gehoert zur entfernten Python-WebAgent-Suite. Die Release-Artefakte und Download-URLs existieren nicht mehr. Fuer den aktuellen Bot2Bot-Kern siehe docs/INSTALL.md und START_HERE.md."
 . (Join-Path $PSScriptRoot "bot2bot_common.ps1")
 
 $root = Get-Bot2BotRoot

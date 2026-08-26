@@ -10,6 +10,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+throw "RETIRED: Dieses Skript gehoert zur entfernten Python-WebAgent-Suite. Die Release-Artefakte und Download-URLs existieren nicht mehr. Fuer den aktuellen Bot2Bot-Kern siehe docs/INSTALL.md und START_HERE.md."
 . (Join-Path $PSScriptRoot "bot2bot_common.ps1")
 
 $bot2botRoot = Get-Bot2BotRoot
@@ -260,12 +261,12 @@ $readme = @"
 
 ## Install (Online, neues System)
 ``````powershell
-irm https://github.com/st0rax/webagent/releases/download/v0.1.10/install-webagent.ps1 | iex
+# ENTFERNT: Python-WebAgent-Releasekanal wurde am 2026-08-25 stillgelegt.
 ``````
 
 ## Update (bestehende Installation)
 ``````powershell
-irm https://github.com/st0rax/webagent/releases/download/v0.1.10/update-webagent.ps1 | iex
+# ENTFERNT: Python-WebAgent-Releasekanal wurde am 2026-08-25 stillgelegt.
 ``````
 
 ## Install (ZIP / USB)

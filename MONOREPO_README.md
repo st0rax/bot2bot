@@ -1,3 +1,5 @@
+> **Eingestellt:** Dieses Dokument beschreibt die alte WebAgent-Suite. Das Python-Repository `st0rax/webagent` und seine Release-Artefakte wurden am 25. August 2026 entfernt. Es ist ausschließlich historischer Kontext; für den aktuellen Stand gilt [`START_HERE.md`](START_HERE.md).
+
 # WebAgent Suite
 
 Local AI agent for Windows with swappable web-brain backends (ChatGPT, Claude, Gemini, Kimi, Mistral, Qwen, DeepSeek) plus **bot2bot** — an agent-to-agent messaging layer for desktop and web brains.
@@ -16,7 +18,8 @@ install-webagent.cmd
 One-liner (Windows PowerShell 5.1 or pwsh 7):
 
 ```powershell
-irm https://github.com/st0rax/webagent/releases/latest/download/install-webagent.ps1 | iex
+# ENTFERNT am 2026-08-25: frühere Python-WebAgent-Suite-Installation
+# Für Bot2Bot gilt der aktuelle Einstieg in README.md und START_HERE.md.
 ```
 
 Or download and run locally:
@@ -52,7 +55,7 @@ cd %USERPROFILE%\Desktop\bot2bot\scripts
 
 ## Releases
 
-Pre-built assets: [GitHub Releases](https://github.com/st0rax/webagent/releases)
+Pre-built legacy assets: **eingestellt am 2026-08-25**; es gibt keinen aktiven Downloadpfad.
 
 | Asset | Purpose |
 |-------|---------|

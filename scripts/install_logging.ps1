@@ -18,7 +18,7 @@ function Get-InstallLogDir {
             return Join-Path $bb "data\install_logs"
         }
     }
-    return Join-Path $env:TEMP "webagent_install_logs"
+    return Join-Path $env:TEMP "bot2bot_install_logs"
 }
 
 function Get-InstallWatchDir {
@@ -35,7 +35,7 @@ function Get-InstallWatchDir {
             return Join-Path $bb "data\watch"
         }
     }
-    return Join-Path $env:TEMP "webagent_install_watch"
+    return Join-Path $env:TEMP "bot2bot_install_watch"
 }
 
 function Get-InstallMachineInfo {
@@ -60,9 +60,8 @@ function Resolve-InstallLoggingScript {
     $cached = Join-Path $env:TEMP "install_logging_v$Version.ps1"
     if (Test-Path -LiteralPath $cached) { return $cached }
 
-    $urls = @(
-        "https://github.com/st0rax/webagent/releases/download/v$Version/install_logging.ps1"
-    )
+    # Die alte WebAgent-Release-Fallbackquelle wurde entfernt.
+    $urls = @()
     foreach ($url in $urls) {
         try {
             $null = Invoke-WebRequest -Uri $url -OutFile $cached -UseBasicParsing -TimeoutSec 60
@@ -80,7 +79,7 @@ function Start-InstallLog {
         [string]$Version = "",
         [string]$InstallRoot = "",
         [string]$Bot2BotRoot = "",
-        [string]$Repo = "st0rax/webagent"
+        [string]$Repo = "st0rax/bot2bot"
     )
     $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
     $logDir = Get-InstallLogDir -InstallRoot $InstallRoot -Bot2BotRoot $Bot2BotRoot
@@ -91,7 +90,7 @@ function Start-InstallLog {
     $info = Get-InstallMachineInfo
 
     $header = @(
-        "=== WebAgent Install Log ===",
+        "=== Bot2Bot Install Log ===",
         "started: $((Get-Date).ToUniversalTime().ToString('o'))",
         "component: $Component",
         "version: $Version",

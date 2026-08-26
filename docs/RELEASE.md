@@ -29,5 +29,5 @@ cd C:\Users\storax\Desktop\bot2bot\scripts
 ## Install URL after release
 
 ```powershell
-irm https://github.com/st0rax/webagent/releases/download/v0.1.5/install-webagent.ps1 | iex
+Die frühere WebAgent-Suite-Release-URL ist eingestellt. Bot2Bot-Releases dürfen keine `install-webagent.ps1`- oder `webagent-suite`-Artefakte voraussetzen.
 ```
