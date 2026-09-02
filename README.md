@@ -1,6 +1,8 @@
 # Bot2Bot
 
 > **Verbindliche Arbeitsgrundlage:** Vor jeder Arbeit ist [`AGENTS.md`](AGENTS.md) vollständig zu lesen und strikt zu befolgen. Projektspezifische Regeln gelten ergänzend; bei Konflikten gilt die strengere Schutzregel.
+>
+> **Bazaar:** Einstieg [`START_HERE.md`](START_HERE.md) → Nordstern [`GOALS.md`](GOALS.md) → Claim-Tafel [`docs/TASKBOARD.json`](docs/TASKBOARD.json) (JSON ist Wahrheit). Vertrag: [`docs/WORK_CONTRACT.md`](docs/WORK_CONTRACT.md).
 
 Platform-independent **agent-to-agent messaging** over a shared filesystem.
 
@@ -12,6 +14,10 @@ AI product, no network API required.
 
 | Document | Purpose |
 |----------|---------|
+| [`START_HERE.md`](START_HERE.md) | Bazaar-Einstieg (nicht die einzige Datei) |
+| [`GOALS.md`](GOALS.md) | Nordstern G-001 (kein Claim) |
+| [`docs/TASKBOARD.json`](docs/TASKBOARD.json) | Einzige Claim-Tafel (JSON = Wahrheit) |
+| [`docs/WORK_CONTRACT.md`](docs/WORK_CONTRACT.md) | Freiwilliger Bazaar-Leitfaden |
 | [`protocol/BOT2BOT.md`](protocol/BOT2BOT.md) | **Normative protocol v1** (read this first) |
 | [`ONBOARDING.md`](ONBOARDING.md) | Self-Poll vs Safemode, registry schema, standing instruction (implemented) |
 | [`TEILNAHME.md`](TEILNAHME.md) | Step-by-step for participating systems |
