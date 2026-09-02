@@ -10,12 +10,12 @@
       "id": "B-010",
       "title": "Bazaar in place: START_HERE, GOALS, WORK_CONTRACT, TASKBOARD.json, GIT_AGENTS",
       "type": "docs",
-      "status": "claimed",
+      "status": "done",
       "owner": "pflege",
       "branch": "docs/B-010-bazaar-in-place",
       "claimed_at": "2026-09-02",
-      "done_at": null,
-      "proof_path": null,
+      "done_at": "2026-09-02",
+      "proof_path": "https://github.com/st0rax/bot2bot/pull/1",
       "verification": "PR open against master; START_HERE is Bazaar entry not the only file; GOALS G-001 not a claim; TASKBOARD.json valid; identities @bot2bot.local; required files START_HERE.md README.md protocol/BOT2BOT.md agents/registry.json still present",
       "dod": "Bazaar files on branch/PR. Dummy, HomBot, webagent-rs untouched. AGENTS.md and MISSION.md not flattened. No markdown taskboard.",
       "depends_on": []
@@ -88,7 +88,9 @@
       "proof_path": ".github/workflows/ci.yml",
       "verification": "CI docs job fails if any bazaar file is missing; existing required files still checked",
       "dod": "Required-files list includes Bazaar files after B-010 landed. Still no cargo test.",
-      "depends_on": ["B-010"]
+      "depends_on": [
+        "B-010"
+      ]
     }
   ]
 }
