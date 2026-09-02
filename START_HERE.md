@@ -1,61 +1,89 @@
 # START HERE — bot2bot
 
-**Stand:** 2026-07-17 · Lies diese Datei zuerst, komplett, bevor du andere
-Dokumente öffnest. Sie ist in sich geschlossen — du brauchst kein anderes
-Repo und kein Vorwissen, um hier weiterzuarbeiten.
+> Willkommen in **bot2bot**. Dieses Repo folgt dem **Bazaar-Modell**: mehrere
+> Agents (LLM) arbeiten freiwillig an einer gemeinsamen Aufgabentafel,
+> koordiniert über einen immer grünen Stamm. Dein Job: **einen Task claimen,
+> umsetzen, testen, klein mergen** — und den Zustand so hinterlassen, dass der
+> nächste (oder der Mensch) ohne dein Kopf-Wissen weiter kann.
 
-> 🔧 **Pflegepflicht:** Wer hier strukturell etwas ändert (Registry-Schema,
-> neue Skripte, geänderter Protokoll-/Watcher-Status) aktualisiert diese
-> Datei **als Teil derselben Änderung**, nicht als Nachtrag. Gilt unabhängig
-> vom verwendeten Tool/Agenten.
+Diese Datei ist der **Bazaar-Einstieg**. Sie ist **nicht** die einzige Datei
+und nicht „in sich geschlossen“. Dummy (`st0rax/dummy-bazaar`) ist nur die
+Prozess-Vorlage: Satz „einzige Einstiegsdatei“, `cargo test` und
+`*@webagent.local` **nicht** hierher kopieren.
 
----
+> Pflegepflicht: Wer Registry-Schema, Protokoll, Watcher oder Bazaar-Dateien
+> ändert, aktualisiert diese Datei **in derselben Änderung**.
 
-## 0. Was ist das
+## Schutz und Pflicht-Lese (diese Reihenfolge)
 
-**Platform-independent agent-to-agent messaging** über ein geteiltes
+Bestehende Schutz- und Protokolldateien gelten **zuerst**. Bei Widerspruch
+gewinnt die **strengere** Regel — nicht Dummy-Gewohnheit.
+
+1. `AGENTS.md` — verbindliche Arbeitsdirektive (Schutz, zwölf Regeln)
+2. `GOALS.md` — Nordstern **G-001** (kein TASKBOARD-Claim, niemand claimt ihn)
+3. `docs/WORK_CONTRACT.md` — freiwilliger Bazaar-Leitfaden
+4. `docs/TASKBOARD.json` — **einzige** Claim-Tafel (JSON ist Wahrheit)
+5. Dann nach Bedarf: `MISSION.md` (aktueller Fokus), `protocol/BOT2BOT.md`
+   (normatives Protokoll v1), `ONBOARDING.md`, `README.md`
+
+Markdown-Boards nicht anlegen und nicht mit JSON „synchron halten“.
+Ein Markdown-Spiegel darf hinterherhinken — JSON gewinnt.
+
+## In 60 Sekunden (Bazaar)
+
+1. **Zustand:** `docs/TASKBOARD.json` — erste Zelle `free`, deren `depends_on`
+   alle `done` sind. Das ist dein Kandidat. Niedrigste ID bei Gleichstand.
+2. **Claim nur in JSON:** `status=claimed`, `owner`, `branch`, `claimed_at`.
+   Eine JSON-`id`, ein Entwickler. **G-001 ist kein Claim.**
+3. **Branch** von `master`: `docs|feature|fix|chore|refactor|test/<id>-<kurz>`.
+4. **Eine Sache** pro Zweig, so klein wie möglich.
+5. **Verifizieren** mit dem `verification`-Feld der Zelle — in diesem Repo
+   typisch `pwsh -File verify.ps1`, `pwsh -File scripts/test_watcher_decisions.ps1`,
+   `pwsh -File scripts/verify_poll_contract.ps1` und/oder CI. **Kein** `cargo test`
+   (das ist Dummy/Rust, nicht bot2bot).
+6. **PR gegen `master`.** `master` bleibt grün. Nicht force-pushen.
+7. **Done** nur mit Beleg: `status=done`, `proof_path`, `done_at`. Behauptung
+   ohne Beleg gilt nicht.
+
+## Was ist das
+
+Platform-unabhängiges **Agent-to-Agent-Messaging** über ein geteiltes
 Dateisystem. Kein Server, keine API — Agenten legen Nachrichten in die
 Postfächer anderer Agenten. Komplett unabhängig von `webagent`/`webagent-rs`
-und `presence-monitor` — keine Schnittmenge, keine Abhängigkeit.
+und `presence-monitor`.
 
-⚠️ Verwechsle das nicht mit webagents eigenem internen `comms.rs` — das ist
-ein **getrenntes, gewolltes** Zweitsystem, keine Redundanz zum Aufräumen.
+Verwechsle das nicht mit webagents internem `comms.rs` — das ist ein
+**getrenntes, gewolltes** Zweitsystem, keine Redundanz zum Aufräumen.
 
-## 1. Kern vs. Rest
+## Kern vs. Rest
 
 - **Normatives Protokoll (Kern, stabil):** `protocol/BOT2BOT.md`,
-  `protocol/MESSAGE_FORMAT.md`, Referenz-Implementierung `register.ps1`,
-  `send.ps1`, `verify.ps1`. Diese Dateien sind klein, sauber, **nicht** ohne
-  guten Grund ändern.
-- **Praktische Einstiegspunkte:** `README.md` (Quick Start),
-  `ONBOARDING.md` (Anweisung für einen sich registrierenden Agenten —
-  enthält die stehende Poll-Anweisung), `TEILNAHME.md` (Teilnahme-Anleitung
-  für beliebige Systeme).
-- **Design-Rationale (Warum, nicht nur Wie):** `docs/MESSAGING_ARCHITECTURE.md`
-  — Registry-Schema, Self-Poll/Safemode-Unterscheidung, Watcher-Sicherheitsnotiz.
-  Größtenteils implementiert, siehe §4.
-- **Optional/host-spezifisch:** `DELIVERY.md` (Watcher, TTS, Poke — nicht
-  Kernprotokoll), `transports/git-inbox/` (Git-Replikation für getrennte
-  Rechner), `docs/INSTALL.md`, `docs/RELEASE.md`.
+  `protocol/MESSAGE_FORMAT.md`, Referenz `register.ps1`, `send.ps1`,
+  `verify.ps1`. Klein, sauber — **nicht** ohne guten Grund ändern.
+- **Bazaar:** `GOALS.md`, `docs/WORK_CONTRACT.md`, `docs/TASKBOARD.json`,
+  `docs/GIT_AGENTS.md` (Identitäten `*@bot2bot.local`).
+- **Praktisch:** `README.md` (Quick Start), `ONBOARDING.md` (Poll-Anweisung),
+  `TEILNAHME.md`.
+- **Warum:** `docs/MESSAGING_ARCHITECTURE.md` — Registry, Self-Poll/Safemode,
+  Watcher-Notiz.
+- **Optional/host-spezifisch:** `DELIVERY.md`, `transports/git-inbox/`,
+  `docs/INSTALL.md`, `docs/RELEASE.md`.
+- **Aktueller Fokus (wechselt öfter):** `MISSION.md`.
 
-## 2. ⚠️ Veraltete Dateien — nicht als aktuellen Stand lesen
+## Veraltete Dateien — nicht als aktuellen Stand lesen
 
-Diese Dateien beschreiben einen alten „Ein-Suite"-Rahmen oder sind seit
-Tagen nicht mehr aktualisiert worden — nicht löschen (historischer Kontext),
-aber nicht als Wahrheit behandeln:
+Nicht löschen (historischer Kontext), aber nicht als Wahrheit:
 
 - `MONOREPO_README.md` (07-12) — nennt bot2bot fälschlich Teil einer
-  „WebAgent Suite"; das Suite-Framing ist überholt, die drei Projekte sind
-  unabhängig (siehe §0).
-- `HANDOFF.md` (07-11), `ANKH.md` (07-11) — ältere Handoff-/Revival-Docs,
-  durch diese Datei ersetzt.
-- `LEGACY.md` — bewusst als „out of core scope, historisch" markiert, bleibt
-  korrekt eingeordnet.
+  „WebAgent Suite"; die Projekte sind unabhängig.
+- `HANDOFF.md` (07-11), `ANKH.md` (07-11) — ältere Handoff-/Revival-Docs.
+- `LEGACY.md` — bewusst out of core, historisch.
 
-**Wahrheit bei Widerspruch:** diese Datei → `README.md`/`ONBOARDING.md` →
+**Wahrheit bei Widerspruch:** `AGENTS.md` (Schutz) → diese Datei →
+`docs/TASKBOARD.json` (Claims) → `README.md`/`ONBOARDING.md` →
 `protocol/BOT2BOT.md`. Ältere Docs verlieren.
 
-## 3. Architektur (Kernmodell)
+## Architektur (Kernmodell)
 
 Rein dateibasiert, kein Daemon nötig für den Kern:
 
@@ -66,43 +94,40 @@ agents/<slug>/inbox/_read/        quittierte Nachrichten (Archiv)
 agents/registry.json              alle Agenten: Identität + poll_mode + wake_command
 ```
 
-Zwei Zustell-Stufen: **Self-Poll** (Default — Agent prüft selbst laufend)
-und **Safemode** (Watcher weckt den Agenten aktiv über `wake_command`, für
-reine Web-Chat-Agenten ohne Hintergrundprüfung). Details + Begründung:
+Zwei Zustell-Stufen: **Self-Poll** (Default — Agent prüft selbst) und
+**Safemode** (Watcher weckt über `wake_command`). Details:
 `docs/MESSAGING_ARCHITECTURE.md`.
 
-## 4. Aktueller Stand (2026-07-17)
+## Aktueller Stand (ehrlich)
 
-v1.2.0. Laut `PROGRESS.md` (2026-07-15 Abschluss): Registry-Schema mit
-`poll_mode`/`background_poll`/`wake_command` implementiert,
-`scripts/wake/window_poke.ps1` (verallgemeinert aus den alten,
-funktionsunfähigen `poke_*.ps1` — die sind entfernt), `ONBOARDING.md`
-aktuell, `scripts/test_watcher_decisions.ps1` grün. Keine CI in diesem Repo
-(nur die beiden Rust-Projekte haben eine).
-
-**Externer Review vorhanden** (`CODE_REVIEW.md`/`CLAUDE_PROPOSALS.md`, Qwen,
-2026-07-16, gegen den echten Dateibestand verifiziert):
-- 75 Skripte liegen flach in `scripts/` (nur `wake/` als Unterordner) —
-  keine Kategorisierung nach cron/poller/installer/council/vibe.
+- Protokoll **v1**, Repo-Version **1.2.0** (`VERSION.json`, released 2026-07-15).
+- Kernprotokoll gilt laut Review (`CODE_REVIEW.md`/`CLAUDE_PROPOSALS.md`,
+  2026-07-16) als sauber — nicht anfassen ohne Bedarf.
+- Offene Organisationspunkte stehen in `MISSION.md` und als Zellen in
+  `docs/TASKBOARD.json` (JSON ist die Tafel, nicht MISSION).
+- **CI existiert:** `.github/workflows/ci.yml` (Watcher-Tests, Poll-Contract,
+  Registry-Schema, PowerShell-Syntax, Pflicht-Dateien). Default-Branch ist
+  `master`. Der Workflow hört derzeit auf `main` — siehe Zelle **B-011**.
 - Zwei Registry-Dateien (`agents/registry.json` +
-  `agents/registry.release.json`) — Doppelquelle, Divergenz-Risiko.
-- Registry-`kind`-Semantik unpräzise: `claude` ist als `webbrain` markiert,
-  vermutlich eher `desktop`+`wake_command`.
-- `Resolve-WatcherActions` liest `registry.json` mehrfach pro Lauf statt
-  einmal (dokumentierte Reinheit gebrochen, klein).
+  `agents/registry.release.json`) — Doppelquelle, siehe **B-013**.
 
-Kern-Protokoll selbst gilt laut Review als sauber — keine Änderung nötig.
+## Build / Test (dieses Repo, nicht Dummy)
 
-## 5. Build/Test
+PowerShell, kein Cargo. Referenz:
 
-PowerShell, kein Cargo/Build-Schritt. Test: `scripts/test_watcher_decisions.ps1`.
-Kein CI-Workflow vorhanden (offener Punkt).
+```powershell
+pwsh -File verify.ps1
+pwsh -File scripts/test_watcher_decisions.ps1
+pwsh -File scripts/verify_poll_contract.ps1
+```
 
-## 6. Nicht verwechseln
+Identitäten: `docs/GIT_AGENTS.md` (`*@bot2bot.local`). Nicht
+`*@hombot.local`, nicht `*@webagent.local`.
 
-`webagent-rs` (`github.com/st0rax/webagent-rs`) und
-`presence-monitor` (`github.com/st0rax/presence-monitor`) sind komplett
-unabhängige Projekte mit je eigener `START_HERE.md`. Kein gemeinsamer
-„Suite"-Rahmen (siehe §2, `MONOREPO_README.md` ist überholt). Der frühere
-separate Git-Transport `agent-inbox` ist dagegen jetzt als optionaler Bereich
-`transports/git-inbox/` in diesem Repository integriert.
+## Tabu
+
+- Dummy, HomBot (`st0rax/hombot-uberbot`) und `webagent-rs` von hier aus
+  **nicht** patchen.
+- Protokoll-Kern ohne konkreten Bedarf nicht umbauen.
+- Keine Secrets, Tokens, Host-Pfade mit Credentials in git.
+- Verkettete TASKBOARD-Zellen nie parallel ziehen (`depends_on` = Kante).
